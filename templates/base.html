@@ -1,0 +1,75 @@
+<!doctype html>
+{% load staticfiles %}
+<html lang="en">
+
+    <head>
+       <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+       <!-- Optional theme -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+        
+        <!-- Link to static directory -->
+        <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}" type="text/css" />
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       <!-- Latest compiled and minified JavaScript -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+        <title>{% block page_title %}{% endblock %}</title>
+    </head>
+    
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'index' %}">NickAuction</a>
+                </div>
+            
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile </a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout </a></li>
+                        <li>
+                            <a href="{% url 'view_cart' %}">
+                                <i class="fa fa-shipping-cart"></i>Cart
+                                {% if product_count > 0 %}
+                                <label class="badge badge-warning">{{ product_count }}</label>
+                                {% endif %}
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" class="nav-link active" href="{% url 'login' %}">Login </a></li>
+                        <li class="nav-item"><a class="nav-link" class="nav-link active" href="{% url 'registration' %}">Register </a></li>
+                        {% endif %}
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <h1 class="text-center">{% block page_heading %}{% endblock %}</h1>
+        {% if messages %}
+             <div class="alert alert-success">
+                <div class="messages">
+                    {% for message in messages %}
+                    <h3 class="text-center">{{ message }}</h3>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+         
+         {% block content %}{% endblock %}
+        <footer>
+            <div class="container">
+                <p>N.Truel Production 2019</p>
+            </div>
+        </footer>
+    </body>
+</html>
